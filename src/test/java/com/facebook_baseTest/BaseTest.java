@@ -6,21 +6,36 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.annotations.BeforeMethod;
+
+import com.facebook_utilities.ReadPropertise;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class BaseTest {
 	WebDriver driver;
 	String browser = "chrome";
 
+	private ReadPropertise readPropertise;
+	
 	public WebDriver openApp() {
+		readPropertise = new ReadPropertise();
+		String facebookUrl = readPropertise.propertiseUrl();
 		if (browser.equalsIgnoreCase("chrome")) {
+			WebDriverManager.chromedriver().setup();
 			driver = new ChromeDriver();
-
+			driver.get(facebookUrl);
+			driver.manage().window().maximize();
+			driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 			return driver;
 
 		} else if (browser.equalsIgnoreCase("edge")) {
 
-			// WebDriverManager.chromedriver().setup();
+			WebDriverManager.edgedriver().setup();
 			driver = new EdgeDriver();
+			driver.get(facebookUrl);
+			driver.manage().window().maximize();
+			driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
 			return driver;
 		} else if (browser.equalsIgnoreCase("firefox")) {
@@ -29,16 +44,17 @@ public class BaseTest {
 			System.out.println(browser + " : This is not a valid Browser");
 		}
 
-		driver.get("https://www.facebook.com/");
+		driver.get(facebookUrl);
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		//return driver;
 		return driver;
 	}
 
 	public WebDriver openChrome() {
 
 		driver = new ChromeDriver();
-		driver.get("https://www.facebook.com/");
+		driver.get(readPropertise.propertiseUrl());
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 		return driver;
@@ -48,7 +64,7 @@ public class BaseTest {
 
 		// WebDriverManager.chromedriver().setup();
 		driver = new EdgeDriver();
-		driver.get("https://www.facebook.com/");
+		driver.get(readPropertise.propertiseUrl());
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 		return driver;
@@ -57,7 +73,7 @@ public class BaseTest {
 	public WebDriver openFirefox() {
 		// WebDriverManager.chromedriver().setup();
 		driver = new FirefoxDriver();
-		driver.get("https://www.facebook.com/");
+		driver.get(readPropertise.propertiseUrl());
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 		return driver;

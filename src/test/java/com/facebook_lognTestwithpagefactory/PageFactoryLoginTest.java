@@ -7,10 +7,12 @@ import org.testng.annotations.Test;
 
 import com.facebook_baseTest.BaseTest;
 import com.facebook_loginPageWithpagefactory.PagefactoryLoginPage;
+import com.facebook_utilities.ReadPropertise;
 
 public class PageFactoryLoginTest extends BaseTest {
 	WebDriver driver;
 	private PagefactoryLoginPage plp;
+	private ReadPropertise readPropertise;
 @BeforeMethod
 public void init() {
 	driver=openApp();
@@ -20,9 +22,12 @@ public void init() {
 
 @Test
 public void validUserNameTest() {
+	readPropertise= new ReadPropertise();
+	
 	plp = new PagefactoryLoginPage(driver);
-	plp.getuserName("Suria123");
-	plp.getPassword("123");
+	//plp.getuserName("Suria123");
+	plp.getuserName(readPropertise.propertiseUserName());
+	plp.getPassword(readPropertise.propertisePasword());
 	plp.getloginButton();
 }
 @Test
@@ -40,7 +45,7 @@ public void doLoginTest() {
 @AfterMethod
 public void closeApp() {
 	if(driver != null) {
-		//driver.quit();
+		driver.quit();
 	}
 	
 }

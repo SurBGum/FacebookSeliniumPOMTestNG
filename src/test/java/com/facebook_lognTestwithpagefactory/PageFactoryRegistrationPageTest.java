@@ -15,12 +15,12 @@ public class PageFactoryRegistrationPageTest extends BaseTest {
 	//@BeforeTest
 	@BeforeMethod
 	public void init() {
-	//driver=openApp();
-	driver=openEdge();
+	driver=openApp();
+	//driver=openEdge();
 	}
 	@Test
 	public void registrationTest () {
-		
+		//driver=openApp();
 		PageFactoryRegistrationpage plp= new PageFactoryRegistrationpage(driver);
 		plp.createNewAccount();
 		plp.getFirstName("Su");
